@@ -1,1 +1,71 @@
-<p>ticket-list works!</p>
+<div class="min-h-screen w-full bg-white text-black flex flex-col items-center justify-center p-8">
+  <h2 class="text-3xl font-bold mb-6">Liste des Réservations</h2>
+
+  <div *ngIf="reservations.length === 0" class="text-gray-500 text-center">
+    <p class="text-xl">Aucune réservation trouvée.</p>
+    <p class="text-sm text-gray-400">Commencez par en créer une dans la page de réservation.</p>
+  </div>
+
+  <div *ngIf="reservations.length > 0" class="overflow-x-auto w-full max-w-5xl">
+    <table class="min-w-full border border-black divide-y divide-gray-300 shadow-xl rounded-xl">
+      <thead class="bg-black text-white">
+      <tr>
+        <th class="px-4 py-2 text-left">Nom</th>
+        <th class="px-4 py-2 text-left">Destination</th>
+        <th class="px-4 py-2 text-left">Date</th>
+        <th class="px-4 py-2 text-left">Actions</th>
+      </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+      <tr *ngFor="let r of reservations" class="hover:bg-gray-100 transition">
+        <td class="px-4 py-2">
+          <input
+            class="w-full border rounded px-2 py-1"
+            [(ngModel)]="r.name"
+            [readonly]="editingId !== r.id"
+          />
+        </td>
+        <td class="px-4 py-2">
+          <input
+            class="w-full border rounded px-2 py-1"
+            [(ngModel)]="r.destination"
+            [readonly]="editingId !== r.id"
+          />
+        </td>
+        <td class="px-4 py-2">
+          <input
+            type="date"
+            class="w-full border rounded px-2 py-1"
+            [(ngModel)]="r.date"
+            [readonly]="editingId !== r.id"
+          />
+        </td>
+        <td class="px-4 py-2 flex gap-2">
+          <button
+            *ngIf="editingId !== r.id"
+            class="text-sm bg-black text-white px-3 py-1 rounded hover:bg-gray-800 transition"
+            (click)="enableEdit(r.id!)"
+          >
+            Modifier
+          </button>
+          <button
+            *ngIf="editingId === r.id"
+            class="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 transition"
+            (click)="saveUpdate(r)"
+          >
+            Sauvegarder
+          </button>
+          <button
+            class="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition"
+            (click)="deleteReservation(r.id!)"
+          >
+            Supprimer
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
