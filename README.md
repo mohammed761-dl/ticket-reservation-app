@@ -22,7 +22,7 @@ In this workshop, you will develop an Angular 19 application capable of function
 
 Here is a short demo of the Ticket Reservation App, showing its functionality and features:
 
-[Watch the Demo Video](https://YOUR_VIDEO_LINK_HERE)
+[Watch the Demo Video](https://drive.google.com/file/d/1Al1CsX_r1LOKYJ71IT_PnP-iRmN4SefG/view?usp=sharing)
 
 ---
 
