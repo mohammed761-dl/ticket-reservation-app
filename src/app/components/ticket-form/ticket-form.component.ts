@@ -1,37 +1,45 @@
 import { Component } from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { db, Reservation } from '../../services/reservation-db.service';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-ticket-form',
-  imports: [
-    FormsModule
-  ],
   templateUrl: './ticket-form.component.html',
-  styleUrl: './ticket-form.component.css'
+  styleUrls: ['./ticket-form.component.css'],
+  imports: [
+    FormsModule,
+    CommonModule,
+    RouterOutlet,
+  ]
 })
-
 export class TicketFormComponent {
   name = '';
   destination = '';
   date = '';
   successMessage = '';
-  formData: any;
 
-  submitForm(form: any) {
+  async submitForm(form: any) {
     if (form.valid) {
-      console.log('Réservation:', {
+      const reservation: Reservation = {
         name: this.name,
         destination: this.destination,
         date: this.date,
-      });
+      };
 
-      this.successMessage = 'Réservation effectuée avec succès !';
+      try {
+        await db.reservations.add(reservation);
+        this.successMessage = 'Réservation enregistrée localement !';
 
-      // Reset form and model
-      form.resetForm();
-      this.name = '';
-      this.destination = '';
-      this.date = '';
+        // Reset form
+        form.resetForm();
+        this.name = '';
+        this.destination = '';
+        this.date = '';
+      } catch (error) {
+        console.error('Erreur lors de l\'enregistrement :', error);
+      }
     }
   }
 }
